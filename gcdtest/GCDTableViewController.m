@@ -40,7 +40,6 @@
                                      @{@"title" : @"dispatch_set_target_queue",@"children":@""},
                                      @{@"title" : @"dispatch_after",@"children":@""},
                                      @{@"title" : @"dispatch_once",@"children":@""},
-                                     @{@"title" : @"dispatch_sync",@"children":@""},
                                      @{@"title" : @"dispatch_apply",@"children":@""},
                                      @{@"title" : @"dispatch_group",@"children":@""},
                                      @{@"title" : @"dispatch_semaphore",@"children":@""},
