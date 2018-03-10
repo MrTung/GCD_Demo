@@ -8,26 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		F44941B0204F99A4004ED29B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F44941AF204F99A4004ED29B /* AppDelegate.m */; };
-		F44941B3204F99A4004ED29B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44941B2204F99A4004ED29B /* ViewController.m */; };
 		F44941B6204F99A4004ED29B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F44941B4204F99A4004ED29B /* Main.storyboard */; };
 		F44941B9204F99A4004ED29B /* gcdtest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F44941B7204F99A4004ED29B /* gcdtest.xcdatamodeld */; };
 		F44941BB204F99A4004ED29B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F44941BA204F99A4004ED29B /* Assets.xcassets */; };
 		F44941BE204F99A4004ED29B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F44941BC204F99A4004ED29B /* LaunchScreen.storyboard */; };
 		F44941C1204F99A4004ED29B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F44941C0204F99A4004ED29B /* main.m */; };
+		F44941C920537184004ED29B /* GCDTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44941C820537183004ED29B /* GCDTableViewController.m */; };
+		F44941CB20537B90004ED29B /* data.plist in Resources */ = {isa = PBXBuildFile; fileRef = F44941CA20537B90004ED29B /* data.plist */; };
+		F44941CF2053881F004ED29B /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F44941CD2053881F004ED29B /* DemoViewController.m */; };
+		F44941D02053881F004ED29B /* DemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F44941CE2053881F004ED29B /* DemoViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F44941AB204F99A4004ED29B /* gcdtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gcdtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44941AE204F99A4004ED29B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F44941AF204F99A4004ED29B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F44941B1204F99A4004ED29B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		F44941B2204F99A4004ED29B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		F44941B5204F99A4004ED29B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F44941B8204F99A4004ED29B /* gcdtest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gcdtest.xcdatamodel; sourceTree = "<group>"; };
 		F44941BA204F99A4004ED29B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F44941BD204F99A4004ED29B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F44941BF204F99A4004ED29B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F44941C0204F99A4004ED29B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F44941C720537183004ED29B /* GCDTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCDTableViewController.h; sourceTree = "<group>"; };
+		F44941C820537183004ED29B /* GCDTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCDTableViewController.m; sourceTree = "<group>"; };
+		F44941CA20537B90004ED29B /* data.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = data.plist; sourceTree = "<group>"; };
+		F44941CC2053881F004ED29B /* DemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoViewController.h; sourceTree = "<group>"; };
+		F44941CD2053881F004ED29B /* DemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoViewController.m; sourceTree = "<group>"; };
+		F44941CE2053881F004ED29B /* DemoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DemoViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,14 +69,18 @@
 			children = (
 				F44941AE204F99A4004ED29B /* AppDelegate.h */,
 				F44941AF204F99A4004ED29B /* AppDelegate.m */,
-				F44941B1204F99A4004ED29B /* ViewController.h */,
-				F44941B2204F99A4004ED29B /* ViewController.m */,
+				F44941CC2053881F004ED29B /* DemoViewController.h */,
+				F44941CD2053881F004ED29B /* DemoViewController.m */,
+				F44941CE2053881F004ED29B /* DemoViewController.xib */,
+				F44941C720537183004ED29B /* GCDTableViewController.h */,
+				F44941C820537183004ED29B /* GCDTableViewController.m */,
 				F44941B4204F99A4004ED29B /* Main.storyboard */,
 				F44941BA204F99A4004ED29B /* Assets.xcassets */,
 				F44941BC204F99A4004ED29B /* LaunchScreen.storyboard */,
 				F44941BF204F99A4004ED29B /* Info.plist */,
 				F44941C0204F99A4004ED29B /* main.m */,
 				F44941B7204F99A4004ED29B /* gcdtest.xcdatamodeld */,
+				F44941CA20537B90004ED29B /* data.plist */,
 			);
 			path = gcdtest;
 			sourceTree = "<group>";
@@ -134,7 +145,9 @@
 			files = (
 				F44941BE204F99A4004ED29B /* LaunchScreen.storyboard in Resources */,
 				F44941BB204F99A4004ED29B /* Assets.xcassets in Resources */,
+				F44941CB20537B90004ED29B /* data.plist in Resources */,
 				F44941B6204F99A4004ED29B /* Main.storyboard in Resources */,
+				F44941D02053881F004ED29B /* DemoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,8 +159,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F44941B9204F99A4004ED29B /* gcdtest.xcdatamodeld in Sources */,
-				F44941B3204F99A4004ED29B /* ViewController.m in Sources */,
+				F44941C920537184004ED29B /* GCDTableViewController.m in Sources */,
 				F44941C1204F99A4004ED29B /* main.m in Sources */,
+				F44941CF2053881F004ED29B /* DemoViewController.m in Sources */,
 				F44941B0204F99A4004ED29B /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
