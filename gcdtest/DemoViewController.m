@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self dispatch_group_1];
+    [self dispatch_suspend];
     
 }
 
@@ -575,6 +575,206 @@
 
 }
 
+//信号量
+//总结:信号量设置的是2，在当前场景下，同一时间内执行的线程就不会超过2，先执行2个线程，等执行完一个，下一个会开始执行。
+-(void)dispatch_semaphore{
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(2);
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    //任务1
+    dispatch_async(queue, ^{
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        
+        NSLog(@"----开始执行第一个任务---当前线程%@",[NSThread currentThread]);
 
+        [NSThread sleepForTimeInterval:2];
+        
+        NSLog(@"----结束执行第一个任务---当前线程%@",[NSThread currentThread]);
+        
+        dispatch_semaphore_signal(semaphore);
+    });
+    
+    //任务2
+    dispatch_async(queue, ^{
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        
+        NSLog(@"----开始执行第二个任务---当前线程%@",[NSThread currentThread]);
+
+        [NSThread sleepForTimeInterval:1];
+        
+        NSLog(@"----结束执行第二个任务---当前线程%@",[NSThread currentThread]);
+        
+        dispatch_semaphore_signal(semaphore);
+    });
+    
+    //任务3
+    dispatch_async(queue, ^{
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        
+        NSLog(@"----开始执行第三个任务---当前线程%@",[NSThread currentThread]);
+
+        [NSThread sleepForTimeInterval:2];
+        
+        NSLog(@"----结束执行第三个任务---当前线程%@",[NSThread currentThread]);
+        
+        dispatch_semaphore_signal(semaphore);
+    });
+}
+
+
+//在读取较大的文件时,如果将文件分成合适的大小并使用 Global Dispatch Queue 并列读取的话,应该会比一般的读取速度快不少。 在 GCD 当中能实现这一功能的就是 Dispatch I/O 和 Dispatch Data。
+-(void)dispatch_IO{
+    
+    //一般情况下可以这样异步去读取数据
+//    dispatch_async(queue, ^{ /* 读取  0     ～ 8080  字节*/ });
+//    dispatch_async(queue, ^{ /* 读取  8081  ～ 16383 字节*/ });
+//    dispatch_async(queue, ^{ /* 读取  16384 ～ 24575 字节*/ });
+//    dispatch_async(queue, ^{ /* 读取  24576 ～ 32767 字节*/ });
+//    dispatch_async(queue, ^{ /* 读取  32768 ～ 40959 字节*/ });
+//    dispatch_async(queue, ^{ /* 读取  40960 ～ 49191 字节*/ });
+//    dispatch_async(queue, ^{ /* 读取  49192 ～ 57343 字节*/ });
+//    dispatch_async(queue, ^{ /* 读取  57344 ～ 65535 字节*/ });
+    
+    
+    //下面是GCD提供的更加便捷的操作姿势
+
+    int fd = 0, fdpair[2];
+    dispatch_queue_t pipe_q;
+    dispatch_io_t pipe_channel;
+    dispatch_semaphore_t sem;
+    /* ..... 此处省略若干代码.....*/
+    
+    // 创建串行队列
+    pipe_q = dispatch_queue_create("PipeQ", NULL);
+    // 创建 Dispatch I／O
+    
+    pipe_channel = dispatch_io_create(DISPATCH_IO_STREAM, fd, pipe_q, ^(int err){
+        close(fd);
+    });
+    
+    // 该函数设定一次读取的大小（分割大小）
+    dispatch_io_set_low_water(pipe_channel, SIZE_MAX);
+    
+    dispatch_io_read(pipe_channel, 0, SIZE_MAX, pipe_q, ^(bool done, dispatch_data_t pipedata, int err){
+        if (err == 0) // err等于0 说明读取无误
+        {
+            // 读取完“单个文件块”的大小
+            size_t len = dispatch_data_get_size(pipedata);
+            if (len > 0)
+            {
+//                // 定义一个字节数组bytes
+//                const charchar *bytes = NULL;
+//                charchar *encoded;
+//
+//                dispatch_data_t md = dispatch_data_create_map(pipedata, (const voidvoid **)&bytes, &len);
+//                encoded = asl_core_encode_buffer(bytes, len);
+//                asl_set((aslmsg)merged_msg, ASL_KEY_AUX_DATA, encoded);
+//                free(encoded);
+//                _asl_send_message(NULL, merged_msg, -1, NULL);
+//                asl_msg_release(merged_msg);
+//                dispatch_release(md);
+            }
+        }
+        if (done)
+        {
+            dispatch_semaphore_signal(sem);
+        }
+    });
+}
+
+
+//隔断方法：当前面的写入操作全部完成之后，再执行后面的读取任务。当然也可以用Dispatch Group和dispatch_set_target_queue,只是比较而言，dispatch_barrier_async会更加顺滑
+-(void)dispatch_barrier_async{
+    
+    NSLog(@"----当前线程---%@",[NSThread currentThread]);
+    
+    dispatch_queue_t queue = dispatch_queue_create("com.test.testQueue", DISPATCH_QUEUE_CONCURRENT);
+    
+    dispatch_async(queue, ^{
+        // 第一个写入任务
+        [NSThread sleepForTimeInterval:3];
+        
+        NSLog(@"----执行第一个写入任务---当前线程%@",[NSThread currentThread]);
+        
+    });
+    dispatch_async(queue, ^{
+        // 第二个写入任务
+        [NSThread sleepForTimeInterval:1];
+        
+        NSLog(@"----执行第二个任务---当前线程%@",[NSThread currentThread]);
+        
+    });
+    
+    dispatch_barrier_async(queue, ^{
+        // 等待处理
+        [NSThread sleepForTimeInterval:2];
+        
+        NSLog(@"----等待前面的任务完成---当前线程%@",[NSThread currentThread]);
+        
+    });
+    
+    dispatch_async(queue, ^{
+        // 第一个读取任务
+        [NSThread sleepForTimeInterval:2];
+        
+        NSLog(@"----执行第一个读取任务---当前线程%@",[NSThread currentThread]);
+        
+    });
+    dispatch_async(queue, ^{
+        // 第二个读取任务
+        [NSThread sleepForTimeInterval:2];
+        
+        NSLog(@"----执行第二个读取任务---当前线程%@",[NSThread currentThread]);
+        
+    });
+}
+
+//场景：当追加大量处理到Dispatch Queue时，在追加处理的过程中，有时希望不执行已追加的处理。例如演算结果被Block截获时，一些处理会对这个演算结果造成影响。在这种情况下，只要挂起Dispatch Queue即可。当可以执行时再恢复。
+//总结:dispatch_suspend，dispatch_resume提供了“挂起、恢复”队列的功能，简单来说，就是可以暂停、恢复队列上的任务。但是这里的“挂起”，并不能保证可以立即停止队列上正在运行的任务，也就是如果挂起之前已经有队列中的任务在进行中，那么该任务依然会被执行完毕
+-(void)dispatch_suspend{
+    
+    NSLog(@"----当前线程---%@",[NSThread currentThread]);
+
+    dispatch_queue_t queue = dispatch_queue_create("com.test.testQueue", DISPATCH_QUEUE_SERIAL);
+
+    dispatch_async(queue, ^{
+        // 执行第一个任务
+        [NSThread sleepForTimeInterval:5];
+
+        NSLog(@"----执行第一个任务---当前线程%@",[NSThread currentThread]);
+       
+    });
+    
+    dispatch_async(queue, ^{
+        // 执行第二个任务
+        [NSThread sleepForTimeInterval:5];
+
+        NSLog(@"----执行第二个任务---当前线程%@",[NSThread currentThread]);
+        
+    });
+    
+    dispatch_async(queue, ^{
+        // 执行第三个任务
+        [NSThread sleepForTimeInterval:5];
+        
+        NSLog(@"----执行第三个任务---当前线程%@",[NSThread currentThread]);
+    });
+    
+    //此时发现意外情况，挂起队列
+    NSLog(@"suspend");
+    dispatch_suspend(queue);
+    
+    //挂起10秒之后，恢复正常
+    [NSThread sleepForTimeInterval:10];
+    
+    //恢复队列
+    NSLog(@"resume");
+    dispatch_resume(queue);
+    
+}
 
 @end
