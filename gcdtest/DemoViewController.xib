@@ -32,11 +32,15 @@
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="khP-IS-FdT">
                     <rect key="frame" x="152.5" y="553" width="70" height="30"/>
+                    <color key="backgroundColor" red="1" green="0.51744935664897329" blue="0.62140975058178105" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="70" id="0U1-GI-33Y"/>
                         <constraint firstAttribute="height" constant="30" id="JL4-yV-TZ7"/>
                     </constraints>
                     <state key="normal" title="run"/>
+                    <connections>
+                        <action selector="runBtnHandler:" destination="-1" eventType="touchUpInside" id="48l-jf-xFo"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

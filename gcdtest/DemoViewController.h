@@ -10,4 +10,7 @@
 
 @interface DemoViewController : UIViewController
 
+
+//测试方法名
+@property (nonatomic,copy) NSString *selectorStr;
 @end

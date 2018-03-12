@@ -8,14 +8,20 @@
 		<key>children</key>
 		<array>
 			<dict>
+				<key>selector</key>
+				<string>testSerialqueue</string>
 				<key>title</key>
-				<string>串行并列</string>
+				<string>串行队列</string>
 			</dict>
 			<dict>
+				<key>selector</key>
+				<string>testConcurrentqueue</string>
 				<key>title</key>
 				<string>并发队列</string>
 			</dict>
 			<dict>
+				<key>selector</key>
+				<string>testMainqueue</string>
 				<key>title</key>
 				<string>主队列</string>
 			</dict>

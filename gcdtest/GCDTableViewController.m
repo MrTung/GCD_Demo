@@ -22,30 +22,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.dataProvider =  @[@{@"title" : @"队列",@"children":@[@{@"title" : @"串行队列",@"children":@""},
-                                                            @{@"title" : @"并发队列",@"children":@""},
-                                                            @{@"title" : @"主队列",@"children":@""}]},
-                           @{@"title" : @"任务的追加方式",@"children":@[@{@"title" : @"同步执行",@"children":@""},
-                                                                 @{@"title" : @"异步执行",@"children":@""}]},
-                           @{@"title" : @"队列+任务组合",@"children":@[@{@"title" : @"同步执行 and 并发队列",@"children":@""},
-                                                                 @{@"title" : @"异步执行 and 并发队列",@"children":@""},
-                                                                 @{@"title" : @"同步执行 and 串行队列",@"children":@""},
-                                                                 @{@"title" : @"异步执行 and 并发队列",@"children":@""},
-                                                                 @{@"title" : @"在主线程中(同步执行 and 主队列) (崩溃)",@"children":@""},
-                                                                 @{@"title" : @"其它线程中(同步执行 and 主队列）",@"children":@""},
-                                                                 @{@"title" : @"异步执行 and 主队列",@"children":@""}]},
+    self.dataProvider =  @[@{@"title" : @"队列",@"children":@[@{@"title" : @"串行队列",@"children":@"",@"selector":@"testSerialqueue"},
+                                                            @{@"title" : @"并发队列",@"children":@"",@"selector":@"testConcurrentqueue"},
+                                                            @{@"title" : @"主队列",@"children":@"",@"selector":@"testMainqueue"}]},
+                           @{@"title" : @"任务的追加方式",@"children":@[@{@"title" : @"同步执行",@"children":@"",@"selector":@"testSync"},
+                                                                 @{@"title" : @"异步执行",@"children":@"",@"selector":@"testAsync"}]},
+                           @{@"title" : @"队列+任务组合",@"children":@[@{@"title" : @"同步执行 and 并发队列",@"children":@"",@"selector":@"syncAndConcurrentqueue"},
+                                                                 @{@"title" : @"异步执行 and 并发队列",@"children":@"",@"selector":@"asyncAndConcurrentqueue"},
+                                                                 @{@"title" : @"同步执行 and 串行队列",@"children":@"",@"selector":@"syncAndSerialqueue"},
+                                                                 @{@"title" : @"异步执行 and 串行队列",@"children":@"",@"selector":@"asyncAndSerialqueue"},
+                                                                 @{@"title" : @"同步执行 & 主队列（在主线程中会crash)",@"children":@"",@"selector":@"syncAndMainqueue"},
+                                                                 @{@"title" : @"同步执行 & 主队列（在其它线程中）",@"children":@"",@"selector":@"othersyncAndMainqueue"},
+                                                                 @{@"title" : @"异步执行 and 主队列",@"children":@"",@"selector":@"asyncAndMainqueue"}]},
                            @{@"title" : @"GCD其它常用API",@"children":@[
-                                     @{@"title" : @"Dispatch Queue",@"children":@""},
-                                     @{@"title" : @"dispatch_queue_creat",@"children":@""},
-                                     @{@"title" : @"dispatch_set_target_queue",@"children":@""},
-                                     @{@"title" : @"dispatch_after",@"children":@""},
-                                     @{@"title" : @"dispatch_once",@"children":@""},
-                                     @{@"title" : @"dispatch_apply",@"children":@""},
-                                     @{@"title" : @"dispatch_group",@"children":@""},
-                                     @{@"title" : @"dispatch_semaphore",@"children":@""},
-                                     @{@"title" : @"Dispatch I/O",@"children":@""},
-                                     @{@"title" : @"dispatch_barrier_async",@"children":@""},
-                                     @{@"title" : @"dispatch_suspend/dispatchp_resume",@"children":@""},]},
+                                     @{@"title" : @"Dispatch Queue",@"children":@"",@"selector":@"getQueue"},
+                                     @{@"title" : @"dispatch_queue_creat",@"children":@"",@"selector":@"queue_create"},
+                                     @{@"title" : @"dispatch_set_target_queue",@"children":@"",@"selector":@"testTargetQueue1"},
+                                     @{@"title" : @"dispatch_after",@"children":@"",@"selector":@"dispatch_after"},
+                                     @{@"title" : @"dispatch_once",@"children":@"",@"selector":@"dispatch_once_1"},
+                                     @{@"title" : @"dispatch_apply",@"children":@"",@"selector":@"dispatch_apply"},
+                                     @{@"title" : @"dispatch_group",@"children":@"",@"selector":@"dispatch_group"},
+                                     @{@"title" : @"dispatch_semaphore",@"children":@"",@"selector":@"dispatch_semaphore"},
+                                     @{@"title" : @"Dispatch I/O",@"children":@"",@"selector":@"dispatch_IO"},
+                                     @{@"title" : @"dispatch_barrier_async",@"children":@"",@"selector":@"dispatch_barrier_async"},
+                                     @{@"title" : @"dispatch_suspend/dispatchp_resume",@"children":@"",@"selector":@"dispatch_suspend"},]},
                            ];
     
     self.tableView.tableFooterView = [UIView new];
@@ -90,6 +90,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     DemoViewController *vc = [[DemoViewController alloc] init];
+    NSArray *arr = [self.dataProvider[indexPath.section] objectForKey:@"children"];
+    vc.selectorStr = [arr[indexPath.row] objectForKey:@"selector"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
