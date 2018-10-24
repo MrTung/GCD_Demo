@@ -921,7 +921,6 @@ dispatch_io_read(pipe_channel,0,SIZE_MAX,pipe_q, ^(bool done,dispatch_data_t pip
 ```
 参考资料：
 
- * [iOS多线程：『GCD』详尽总结）](https://juejin.im/post/5a90de68f265da4e9b592b40)
  * Objective-C 高级编程 iOS 与 OS X 多线程和内存管理
 
 
